@@ -35,29 +35,25 @@ const UserSchema = new schema({
     }
 });
 
-const updateUserSchema = new schema({
-    firstname: {
-        type: String,
-        minlength: 3,
-        maxlength: 20
+
+
+const accountSchema = new mongoose.Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User',
+        required: true
     },
-    lastname: {
-        type: String,
-        minlength: 3,
-        maxlength: 20
-    },
-    password: {
-        type: String,
-        minlength: 8,
-        maxlength: 100
+    balance: {
+        type: Number,
+        required: true
     }
 });
 
 
 const User = mongoose.model('User', UserSchema);
-const Updateuser = mongoose.model('Updateuser', updateUserSchema);
+const Account = mongoose.model('Account', accountSchema);
 
 module.exports = {
     User,
-    Updateuser
+    Account
 }
