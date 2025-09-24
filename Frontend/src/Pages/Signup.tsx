@@ -94,8 +94,8 @@ export default function Signup() {
                 
                 // Redirect to login page after a small delay
                 setTimeout(() => {
-                    navigate('/login');
-                }, 1500);
+                    navigate('/signin');
+                }, 1000);
             
             } else{
                 alert("Some thing went wrong");
@@ -287,7 +287,7 @@ export default function Signup() {
                 <div className="mt-6 text-center">
                     <p className="text-gray-600">
                         Already have an account?{" "}
-                        <Link to="/login" className="text-blue-600 hover:text-blue-800 font-medium hover:underline transition-all">
+                        <Link to="/signin" className="text-blue-600 hover:text-blue-800 font-medium hover:underline transition-all">
                             Sign in
                         </Link>
                     </p>
