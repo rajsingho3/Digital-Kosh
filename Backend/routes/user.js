@@ -24,16 +24,24 @@ router.post('/signup', async (req, res) => {
     firstname: z.string().min(3).max(20),
     lastname: z.string().min(3).max(20),
     email: z.string()
-      .email('Invalid email format')
-      .refine((val) => val.endsWith('@gmail.com'), { message: 'Only Gmail addresses are allowed' }),
+      .email('Invalid email format'),
     password: z.string().min(8).max(20),
     phoneno: z.string().min(10).max(10)
   });
 
   const parsedUser = requiredUser.safeParse(req.body);
   if (!parsedUser.success) {
-    return res.status(400).json({ error: parsedUser.error.errors });
+    console.log("Validation error:", parsedUser.error.errors);
+    return res.status(400).json({ 
+      error: parsedUser.error.errors,
+      message: "Validation failed. Please check your input."
+    });
   }
+  
+  console.log("Received valid signup data:", {
+    ...req.body,
+    password: "***" // Don't log the actual password
+  });
 
   const { firstname, lastname, email, password, phoneno } = req.body;
 
@@ -68,11 +76,16 @@ router.post('/signup', async (req, res) => {
     console.error('Error creating user:', err);
  
     if (err.code === 11000) {
-      
       const dupField = err.keyValue ? Object.keys(err.keyValue)[0] : 'field';
-      return res.status(400).json({ error: `${dupField} already exists` });
+      return res.status(409).json({ 
+        error: `${dupField} already exists`,
+        message: `A user with this ${dupField} already exists. Please use a different ${dupField}.`
+      });
     }
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return res.status(500).json({ 
+      error: 'Internal Server Error',
+      message: 'An unexpected error occurred while creating your account. Please try again later.'
+    });
   }
 });
 
@@ -116,10 +129,10 @@ router.post('/signin', async (req, res) => {
 
 // Update user details
 
-const updateBody = zod.object({
-	password: zod.string().optional(),
-  firstName: zod.string().optional(),
-  lastName: zod.string().optional(),
+const updateBody = z.object({
+	password: z.string().optional(),
+  firstName: z.string().optional(),
+  lastName: z.string().optional(),
 })
 
 router.put("/update", authMiddleware, async (req, res) => {

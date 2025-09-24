@@ -9,6 +9,8 @@ import { motion, AnimatePresence } from "framer-motion";
 
 
 
+
+
 const Navigation = () => (
   <nav className="flex items-center justify-between px-6 md:px-16 py-6">
     <div className="flex items-center gap-2">
@@ -116,8 +118,8 @@ const HeroSection = () => (
           transfer funds, and check ,< br /> your balance easily with <br /> Digital Kosh.
         </p>
 
-        <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-4 rounded-2xl text-lg transition-colors duration-200">
-          Get Started
+        <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-4 rounded-2xl text-lg transition-colors duration-200 cursor-pointer">
+           <a href="./Signup">Get Started</a>
         </button>
       </div>
 
